@@ -1,12 +1,17 @@
 {
-  "name": "http-cli",
+  "name": "httpcli",
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/cli.ts",
-    "build": "bun scripts/build.ts"
+    "dev": "bun run --watch src/cli/cli.ts",
+    "build": "bun build src/**/*.ts --outdir dist --target=bun",
+    "build:bin": "bun scripts/build.ts"
   },
   "bin": "./src/cli",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "devDependencies": {
     "@types/bun": "latest"
   },

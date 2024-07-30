@@ -1,6 +1,6 @@
 import { $ } from "bun";
 import { rmSync, existsSync } from "node:fs";
-import { logger } from "../src";
+import * as logger from "../src/utils/logger";
 
 let now = new Date();
 
@@ -21,7 +21,7 @@ for (const platform of platforms) {
 
 async function build(target: string) {
   logger.info(`Building CLI for ${target}`);
-  await $`bun build src/cli.ts --compile --target=bun-${target} --outfile=bin/http-${target}`;
+  await $`bun build src/cli/cli.ts --compile --target=bun-${target} --outfile=bin/http-${target}`;
 }
 
 logger.info(`Completed in ${new Date().getTime() - now.getTime()}ms`);
