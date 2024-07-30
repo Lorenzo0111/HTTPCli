@@ -1,15 +1,62 @@
-# http-cli
+<div align="center">
 
-To install dependencies:
+# HTTP Cli
+
+[![GitHub Release](https://img.shields.io/github/v/release/Lorenzo0111/HTTPCLI)](https://github.com/Lorenzo0111/HTTPCLI/releases/latest)
+[![GitHub License](https://img.shields.io/github/license/Lorenzo0111/HTTPCLI)](LICENSE)
+[![Discord](https://img.shields.io/discord/1088775598337433662)](https://discord.gg/HT47UQXBqG)
+
+</div>
+
+## What is HTTPCli
+
+HTTPCli is a parser for HTTP files. It allows you to run HTTP requests easily with a basic syntax.
+
+## Installing
+
+### Binaries
+HTTP Cli is available for Windows, Linux and MacOS. You can download the latest release from the [releases page](https://github.com/Lorenzo0111/HTTPCLI/releases/latest).
+
+### NPM
+You can also install HTTPCli using npm:
+```bash
+npm install -g httpcli
+```
+### Importing as a module
+You can also import HTTPCli as a module in your project and use its functions
 
 ```bash
-bun install
+npm install httpcli
 ```
 
-To run:
+## Usage
 
+### Command Line
 ```bash
-bun run index.ts
+# Start a REPL session
+httpcli
+
+# Run a file
+httpcli file.http
 ```
 
-This project was created using `bun init` in bun v1.1.20. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+### As a module
+```javascript
+import { parse } from "httpcli";
+
+const httpFile = `
+GET https://jsonplaceholder.typicode.com/todos/1
+`;
+
+parse(httpFile).then((res) => {
+    console.log(res);
+});
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you need help, feel free to join the [Discord Server](https://discord.gg/HT47UQXBqG) or open an issue.

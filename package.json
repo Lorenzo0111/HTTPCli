@@ -3,6 +3,7 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
+    "dev": "bun run --watch src/cli.ts",
     "build": "bun scripts/build.ts"
   },
   "bin": "./src/cli",

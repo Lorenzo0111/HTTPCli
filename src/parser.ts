@@ -11,7 +11,7 @@ export async function parse(content: string) {
   for (const instruction of instructions) {
     const lines = instruction.trim().split("\n");
     const method = lines[0].match(methodRegex)?.[0];
-    const url = lines[0].match(urlRegex)?.[1];
+    const urlPipe = lines[0].match(urlRegex)?.[1]?.split(" > ");
 
     const headersLines =
       lines.indexOf("") > -1
@@ -25,15 +25,21 @@ export async function parse(content: string) {
       };
     });
 
-    if (!method || !url) throw new Error("Invalid syntax");
+    if (!method || !urlPipe?.length) throw new Error("Invalid syntax");
 
-    logger.info(chalk.bgYellowBright(` ${method} `) + " " + url);
+    const body =
+      lines.indexOf("") > -1
+        ? lines.slice(lines.indexOf("") + 1).join("\n")
+        : undefined;
 
-    const response = await fetch(url, {
+    logger.info(chalk.bgYellowBright(` ${method} `) + " " + urlPipe[0]);
+
+    const response = await fetch(urlPipe[0], {
       headers: Object.fromEntries(
         headers.map((header) => [header.key, header.value])
       ),
       method,
+      body,
     });
 
     const text = await response.text();
@@ -41,11 +47,20 @@ export async function parse(content: string) {
 
     logger.info(chalk.bgGreenBright(` ${status} `));
 
+    let resData = text;
     try {
       const json = JSON.parse(text);
-      logger.info(JSON.stringify(json, null, 2));
-    } catch {
-      logger.info(text);
+      resData = JSON.stringify(json, null, 2);
+    } catch {}
+
+    logger.info(resData);
+
+    if (urlPipe.length > 1) {
+      const file = Bun.file(urlPipe[1]);
+      const writer = file.writer();
+
+      writer.write(resData);
+      writer.end();
     }
   }
 }

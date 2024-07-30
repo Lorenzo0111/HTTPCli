@@ -1,13 +1,13 @@
-GET https://dummyjson.com/todos?limit=1
+GET https://dummyjson.com/todos?limit=1 > examples/responses/1.json
 Accept: application/json
 
 --
 
-POST https://dummyjson.com/todos/add
+POST https://dummyjson.com/todos/add > examples/responses/2.json
 Content-Type: application/json
 
 {
-  todo: 'Use DummyJSON in the project',
-  completed: false,
-  userId: 5,
+  "todo": "Use HTTPCli",
+  "completed": true,
+  "userId": 1
 }
