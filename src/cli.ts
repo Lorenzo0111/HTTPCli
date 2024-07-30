@@ -1,4 +1,4 @@
-import { startRepl } from ".";
+import { logger, startRepl } from ".";
 import { parse } from "./parser";
 
 async function main() {
@@ -10,8 +10,12 @@ async function main() {
   }
 
   const file = Bun.file(args[0]);
-  if (await file.exists()) parse(await file.text());
-  else console.log("File not found");
+  try {
+    if (await file.exists()) await parse(await file.text());
+    else logger.error("File not found");
+  } catch (e) {
+    if (e instanceof Error) logger.error(e.message);
+  }
 }
 
 main();

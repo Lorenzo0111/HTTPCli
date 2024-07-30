@@ -1,0 +1,13 @@
+GET https://dummyjson.com/todos?limit=1
+Accept: application/json
+
+--
+
+POST https://dummyjson.com/todos/add
+Content-Type: application/json
+
+{
+  todo: 'Use DummyJSON in the project',
+  completed: false,
+  userId: 5,
+}

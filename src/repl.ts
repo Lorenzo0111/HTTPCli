@@ -1,4 +1,5 @@
 import type { FileSink } from "bun";
+import { parse } from ".";
 
 function printCursor(stdout: FileSink) {
   stdout.write("REPL > ");
@@ -10,8 +11,12 @@ export async function startRepl() {
 
   for await (const chunk of Bun.stdin.stream() as any) {
     const input = Buffer.from(chunk).toString();
-    console.log(`> ${input}`);
+    if (input === "exit\n") {
+      writer.write("Goodbye!\n");
+      process.exit(0);
+    }
 
+    await parse(input);
     printCursor(writer);
   }
 }
