@@ -1,5 +1,5 @@
-import { $ } from "bun";
-import { rmSync, existsSync } from "node:fs";
+import { existsSync, rmSync } from "node:fs";
+import { $ } from "zx";
 import * as logger from "../src/utils/logger";
 
 let now = new Date();

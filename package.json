@@ -1,25 +1,33 @@
 {
   "name": "@lorenzo0111/httpcli",
   "module": "src/index.ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
-    "dev": "bun run --watch src/cli/cli.ts",
-    "build": "bun build src/**/*.ts --outdir dist --target=bun",
+    "dev": "tsx --watch src/cli/cli.ts",
+    "build": "tsc",
     "build:bin": "bun scripts/build.ts"
   },
+  "exports": "./dist/index.js",
   "bin": "./src/cli",
   "files": [
     "dist",
-    "README.md"
+    "src",
+    "README.md",
+    "LICENSE"
   ],
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
   "dependencies": {
     "chalk": "^5.3.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "zx": "^8.4.0"
+  },
+  "packageManager": "pnpm@10.6.2",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

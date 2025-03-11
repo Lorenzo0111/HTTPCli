@@ -1,18 +1,19 @@
-import type { BunFile, FileSink } from "bun";
 import chalk from "chalk";
-import { parse } from "..";
-import * as logger from "../utils/logger";
+import { parse } from "../index.js";
+import * as logger from "../utils/logger.js";
 
-function printCursor(stdout: FileSink) {
+function printCursor(stdout: NodeJS.WriteStream) {
   stdout.write(chalk.bgBlueBright(" > ") + " ");
 }
 
-export async function startRepl(stdout: BunFile, stdin: BunFile) {
-  const writer = stdout.writer();
-  printCursor(writer);
+export async function startRepl(
+  stdout: NodeJS.WriteStream,
+  stdin: NodeJS.ReadStream
+) {
+  printCursor(stdout);
 
   let string = "";
-  for await (const chunk of stdin.stream() as any) {
+  for await (const chunk of stdin) {
     const input = Buffer.from(chunk).toString();
     if (input === "exit\n") {
       process.exit(0);
@@ -20,7 +21,7 @@ export async function startRepl(stdout: BunFile, stdin: BunFile) {
 
     if (input.endsWith("\\\n")) {
       string += input.slice(0, -2) + "\n";
-      printCursor(writer);
+      printCursor(stdout);
       continue;
     }
 
@@ -31,6 +32,6 @@ export async function startRepl(stdout: BunFile, stdin: BunFile) {
       if (e instanceof Error) logger.error(e.message);
     }
 
-    printCursor(writer);
+    printCursor(stdout);
   }
 }

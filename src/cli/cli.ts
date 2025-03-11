@@ -1,18 +1,18 @@
-import { parse, startRepl } from "..";
-import * as logger from "../utils/logger";
+import { existsSync, readFileSync } from "node:fs";
+import { parse, startRepl } from "../index.js";
+import * as logger from "../utils/logger.js";
 
 async function main() {
-  const args = Bun.argv.slice(2);
+  const args = process.argv.slice(2);
 
   if (args.length === 0) {
-    startRepl(Bun.stdout, Bun.stdin);
+    startRepl(process.stdout, process.stdin);
     return;
   }
 
-  const file = Bun.file(args[0]);
   try {
-    if (await file.exists()) {
-      const result = await parse(await file.text());
+    if (existsSync(args[0])) {
+      const result = await parse(readFileSync(args[0], "utf-8"));
       logger.logResult(result);
     } else logger.error("File not found");
   } catch (e) {

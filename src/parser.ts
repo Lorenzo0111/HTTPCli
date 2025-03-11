@@ -1,4 +1,5 @@
-import type { ParseResult, RequestMethod } from ".";
+import type { ParseResult, RequestMethod } from "./index.js";
+import { writeFileSync } from "node:fs";
 
 const methodRegex = /^(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)/;
 const urlRegex = /(?<=GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s+(.*)/;
@@ -52,11 +53,7 @@ export async function parse(content: string): Promise<ParseResult> {
     } catch {}
 
     if (urlPipe.length > 1) {
-      const file = Bun.file(urlPipe[1]);
-      const writer = file.writer();
-
-      writer.write(resData);
-      writer.end();
+      writeFileSync(urlPipe[1], resData);
     }
 
     items.push({

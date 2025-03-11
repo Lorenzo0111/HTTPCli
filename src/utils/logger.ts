@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import type { ParseResult } from "../types";
+import type { ParseResult } from "../types.js";
 
 export function debug(message: string) {
   console.log(`${chalk.bgGreenBright(" DEBUG ")} ${message}`);
