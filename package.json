@@ -1,6 +1,7 @@
 {
-  "name": "httpcli",
+  "name": "@lorenzo0111/httpcli",
   "module": "src/index.ts",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "bun run --watch src/cli/cli.ts",

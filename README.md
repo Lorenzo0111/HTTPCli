@@ -20,13 +20,13 @@ HTTP Cli is available for Windows, Linux and MacOS. You can download the latest 
 ### NPM
 You can also install HTTPCli using npm:
 ```bash
-npm install -g httpcli
+npm install -g @lorenzo0111/httpcli
 ```
 ### Importing as a module
 You can also import HTTPCli as a module in your project and use its functions
 
 ```bash
-npm install httpcli
+npm install @lorenzo0111/httpcli
 ```
 
 ## Usage
@@ -42,7 +42,7 @@ httpcli file.http
 
 ### As a module
 ```javascript
-import { parse } from "httpcli";
+import { parse } from "@lorenzo0111/httpcli";
 
 const httpFile = `
 GET https://jsonplaceholder.typicode.com/todos/1
