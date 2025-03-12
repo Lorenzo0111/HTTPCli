@@ -1,5 +1,6 @@
-import type { ParseResult, RequestMethod } from "./index.js";
+import axios from "axios";
 import { writeFileSync } from "node:fs";
+import type { ParseResult, RequestMethod } from "./index.js";
 
 const methodRegex = /^(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)/;
 const urlRegex = /(?<=GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS)\s+(.*)/;
@@ -35,26 +36,22 @@ export async function parse(content: string): Promise<ParseResult> {
         ? lines.slice(lines.indexOf("") + 1).join("\n")
         : undefined;
 
-    const response = await fetch(urlPipe[0], {
+    const response = await axios.request({
+      method,
+      url: urlPipe[0],
       headers: Object.fromEntries(
         headers.map((header) => [header.key, header.value])
       ),
-      method,
-      body,
+      data: body,
     });
 
-    const text = await response.text();
+    const text =
+      typeof response.data === "object"
+        ? JSON.stringify(response.data, null, 2)
+        : response.data;
     const status = response.status;
 
-    let resData = text;
-    try {
-      const json = JSON.parse(text);
-      resData = JSON.stringify(json, null, 2);
-    } catch {}
-
-    if (urlPipe.length > 1) {
-      writeFileSync(urlPipe[1], resData);
-    }
+    if (urlPipe.length > 1) writeFileSync(urlPipe[1], text, "utf-8");
 
     items.push({
       request: {
